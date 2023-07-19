@@ -2,6 +2,8 @@ package de.maibornwolff.sfgrecipes.domain;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,6 +29,9 @@ public class Recipe {
     private String directions;
     @Lob
     private Byte[] image;
+    @Enumerated(value = EnumType.STRING)
+    private Difficulty difficulty;
+
     @OneToMany(cascade =  CascadeType.ALL, mappedBy = "recipe")
     private Set<Ingredient> ingredients;
 
@@ -111,6 +116,14 @@ public class Recipe {
 
     public void setNotes(Notes notes) {
         this.notes = notes;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
+        this.difficulty = difficulty;
     }
 
     public Set<Ingredient> getIngredients() {
