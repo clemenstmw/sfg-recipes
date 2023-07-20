@@ -4,14 +4,15 @@ import de.maibornwolff.sfgrecipes.domain.Difficulty;
 import de.maibornwolff.sfgrecipes.domain.Ingredient;
 import de.maibornwolff.sfgrecipes.domain.Recipe;
 import de.maibornwolff.sfgrecipes.domain.UnitOfMeasure;
+import de.maibornwolff.sfgrecipes.repository.IngredientRepository;
 import de.maibornwolff.sfgrecipes.repository.RecipeRepository;
 import de.maibornwolff.sfgrecipes.repository.UnitOfMeasureRepository;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
@@ -20,10 +21,12 @@ public class BootstrapDataLoader implements ApplicationListener<ContextRefreshed
 
     private final RecipeRepository repository;
     private final UnitOfMeasureRepository uomRepository;
+    private final IngredientRepository ingredientRepository;
 
-    public BootstrapDataLoader(RecipeRepository repository, UnitOfMeasureRepository uomRepository) {
+    public BootstrapDataLoader(RecipeRepository repository, UnitOfMeasureRepository uomRepository, IngredientRepository ingredientRepository) {
         this.repository = repository;
         this.uomRepository = uomRepository;
+        this.ingredientRepository = ingredientRepository;
     }
 
     @Override
@@ -121,19 +124,19 @@ public class BootstrapDataLoader implements ApplicationListener<ContextRefreshed
         recipe.setDifficulty(Difficulty.MODERATE);
         recipe.setPrepTime(20);
         recipe.setCookTime(15);
-        recipe.setIngredients(Set.of(
-                createIngredient(recipe, "ancho chili powder", BigDecimal.valueOf(2), getUom("Tablespoon")),
-                createIngredient(recipe, "dried oregano", BigDecimal.valueOf(1), getUom("Teaspoon")),
-                createIngredient(recipe, "dried cumin", BigDecimal.valueOf(1), getUom("Teaspoon")),
-                createIngredient(recipe, "sugar", BigDecimal.valueOf(1), getUom("Teaspoon")),
-                createIngredient(recipe, "kosher salt", BigDecimal.valueOf(.5), getUom("Teaspoon")),
-                createIngredient(recipe, "garlic, finely chopped", BigDecimal.ONE, getUom("Clove")),
-                createIngredient(recipe, "finely grated orange zest", BigDecimal.valueOf(1), getUom("Tablespoon")),
-                createIngredient(recipe, "fresh-squeezed orange juice", BigDecimal.valueOf(3), getUom("Tablespoon")),
-                createIngredient(recipe, "olive oil", BigDecimal.valueOf(2), getUom("Tablespoon")),
-                createIngredient(recipe, "skinless, boneless chicken thighs", BigDecimal.valueOf(1.25), getUom("Pound"))
-                )
-        );
+
+        recipe.setIngredients(new HashSet<>());
+        recipe.getIngredients().add(createIngredient(recipe, "ancho chili powder", BigDecimal.valueOf(2), getUom("Tablespoon")));
+        recipe.getIngredients().add(createIngredient(recipe, "dried oregano", BigDecimal.valueOf(1), getUom("Teaspoon")));
+        recipe.getIngredients().add(createIngredient(recipe, "dried cumin", BigDecimal.valueOf(1), getUom("Teaspoon")));
+        recipe.getIngredients().add(createIngredient(recipe, "sugar", BigDecimal.valueOf(1), getUom("Teaspoon")));
+        recipe.getIngredients().add(createIngredient(recipe, "kosher salt", BigDecimal.valueOf(.5), getUom("Teaspoon")));
+        recipe.getIngredients().add(createIngredient(recipe, "garlic, finely chopped", BigDecimal.ONE, getUom("Clove")));
+        recipe.getIngredients().add(createIngredient(recipe, "finely grated orange zest", BigDecimal.valueOf(1), getUom("Tablespoon")));
+        recipe.getIngredients().add(createIngredient(recipe, "fresh-squeezed orange juice", BigDecimal.valueOf(3), getUom("Tablespoon")));
+        recipe.getIngredients().add(createIngredient(recipe, "olive oil", BigDecimal.valueOf(2), getUom("Tablespoon")));
+        recipe.getIngredients().add(createIngredient(recipe, "skinless, boneless chicken thighs", BigDecimal.valueOf(1.25), getUom("Pound")));
+
         recipe.setServings(5);
         recipe.setSource("Simple Recipes");
         recipe.setUrl("https://www.simplyrecipes.com/recipes/spicy_grilled_chicken_tacos/");
@@ -142,13 +145,16 @@ public class BootstrapDataLoader implements ApplicationListener<ContextRefreshed
 
     private UnitOfMeasure getUom(String description) {
         Optional<UnitOfMeasure> uomOptional = uomRepository.findByDescription(description);
-        if (uomOptional.isPresent()) {
-            return uomOptional.get();
-        }
 
-        UnitOfMeasure createUOM = new UnitOfMeasure();
-        createUOM.setDescription(description);
-        return uomRepository.save(createUOM);
+        return uomOptional.orElseThrow();
+
+//        if (uomOptional.isPresent()) {
+//            return uomOptional.get();
+//        }
+//
+//        UnitOfMeasure createUOM = new UnitOfMeasure();
+//        createUOM.setDescription(description);
+//        return uomRepository.save(createUOM);
     }
 
     private Ingredient createIngredient(Recipe recipe, String description, BigDecimal amount, UnitOfMeasure uom) {

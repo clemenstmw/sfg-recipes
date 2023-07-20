@@ -10,3 +10,5 @@ INSERT INTO unit_of_measure (description) VALUES ('Ounce');
 INSERT INTO unit_of_measure (description) VALUES ('Piece');
 INSERT INTO unit_of_measure (description) VALUES ('Clove');
 INSERT INTO unit_of_measure (description) VALUES ('Pound');
+INSERT INTO unit_of_measure (description) VALUES ('Medium');
+INSERT INTO unit_of_measure (description) VALUES ('Large');
