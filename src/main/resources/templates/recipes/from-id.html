@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipe-App</title>
+</head>
+<body>
+    <h2>Recipe</h2>
+<table>
+    <tbody>
+    <tr>
+        <td style="text-align: right"><b>Description</b></td>
+        <td th:text="${recipe.description}">Title and Description of the recipe</td>
+    </tr>
+    <tr>
+        <td style="text-align: right"><b>Prep/Cook time</b></td>
+        <td th:text="${recipe.prepTime} + ' / ' + ${recipe.cookTime} + ' minutes'">2 / 99 minutes</td>
+    </tr>
+    <tr>
+        <td style="text-align: right"><b>Servings</b></td>
+        <td th:text="${recipe.servings} + ' servings'">2.25 servings</td>
+    </tr>
+    <tr>
+        <td style="text-align: right; vertical-align: top"><b>Ingredients</b></td>
+        <td>
+            <table>
+                <tr th:each="ingredient : ${recipe.ingredients}">
+                    <td style="text-align: right" th:text="${ingredient.amount}"> ~5 1/2</td>
+                    <td th:text="${ingredient.uom.description} + ' ' + ${ingredient.description}">pieces sugar</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td style="text-align: right"><b>Instructions</b></td>
+        <td th:text="@{recipe.directions}">Mix well</td>
+    </tr>
+    <tr>
+        <td style="text-align: right"><b>Source</b></td>
+        <td>
+            <span th:text="${recipe.source}">Source...</span><br>
+            <a th:text="${recipe.url}" th:href="${recipe.url}">Link</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+    <a href="/recipes">back to overview</a>
+
+</body>
+</html>
