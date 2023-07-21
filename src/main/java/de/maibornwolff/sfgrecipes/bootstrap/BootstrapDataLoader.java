@@ -70,15 +70,15 @@ public class BootstrapDataLoader implements ApplicationListener<ContextRefreshed
         recipe.setDifficulty(Difficulty.EASY);
         recipe.setPrepTime(0);
         recipe.setCookTime(15);
-        recipe.setIngredients(Set.of(
-                createIngredient(recipe, "ripe Hass avocados", BigDecimal.valueOf(4L), getUom("Piece")),
-                createIngredient(recipe, "garlic", BigDecimal.valueOf(3L), getUom("Clove")),
-                createIngredient(recipe, "kosher salt, plus more to taste", BigDecimal.valueOf(.5), getUom("Teaspoon")),
-                createIngredient(recipe, "red onion", BigDecimal.valueOf(.5), getUom("Medium")),
-                createIngredient(recipe, "jalapeño", BigDecimal.valueOf(.5), getUom("Large")),
-                createIngredient(recipe, "chopped cilantro", BigDecimal.valueOf(.25), getUom("Cup")),
-                createIngredient(recipe, "fresh lime juice (squeezed from 1 large lime)", BigDecimal.valueOf(2L), getUom("Tablespoon"))
-        ));
+
+        recipe.addIngredient(createIngredient(recipe, "ripe Hass avocados", BigDecimal.valueOf(4L), getUom("Piece")));
+        recipe.addIngredient(createIngredient(recipe, "garlic", BigDecimal.valueOf(3L), getUom("Clove")));
+        recipe.addIngredient(createIngredient(recipe, "kosher salt, plus more to taste", BigDecimal.valueOf(.5), getUom("Teaspoon")));
+        recipe.addIngredient(createIngredient(recipe, "red onion", BigDecimal.valueOf(.5), getUom("Medium")));
+        recipe.addIngredient(createIngredient(recipe, "jalapeño", BigDecimal.valueOf(.5), getUom("Large")));
+        recipe.addIngredient(createIngredient(recipe, "chopped cilantro", BigDecimal.valueOf(.25), getUom("Cup")));
+        recipe.addIngredient(createIngredient(recipe, "fresh lime juice (squeezed from 1 large lime)", BigDecimal.valueOf(2L), getUom("Tablespoon")));
+
         recipe.setServings(8);
         recipe.setSource("Simply Recipes");
         recipe.setUrl("https://www.simplyrecipes.com/recipes/copy_cat_chipotle_guacamole/");
@@ -125,17 +125,16 @@ public class BootstrapDataLoader implements ApplicationListener<ContextRefreshed
         recipe.setPrepTime(20);
         recipe.setCookTime(15);
 
-        recipe.setIngredients(new HashSet<>());
-        recipe.getIngredients().add(createIngredient(recipe, "ancho chili powder", BigDecimal.valueOf(2), getUom("Tablespoon")));
-        recipe.getIngredients().add(createIngredient(recipe, "dried oregano", BigDecimal.valueOf(1), getUom("Teaspoon")));
-        recipe.getIngredients().add(createIngredient(recipe, "dried cumin", BigDecimal.valueOf(1), getUom("Teaspoon")));
-        recipe.getIngredients().add(createIngredient(recipe, "sugar", BigDecimal.valueOf(1), getUom("Teaspoon")));
-        recipe.getIngredients().add(createIngredient(recipe, "kosher salt", BigDecimal.valueOf(.5), getUom("Teaspoon")));
-        recipe.getIngredients().add(createIngredient(recipe, "garlic, finely chopped", BigDecimal.ONE, getUom("Clove")));
-        recipe.getIngredients().add(createIngredient(recipe, "finely grated orange zest", BigDecimal.valueOf(1), getUom("Tablespoon")));
-        recipe.getIngredients().add(createIngredient(recipe, "fresh-squeezed orange juice", BigDecimal.valueOf(3), getUom("Tablespoon")));
-        recipe.getIngredients().add(createIngredient(recipe, "olive oil", BigDecimal.valueOf(2), getUom("Tablespoon")));
-        recipe.getIngredients().add(createIngredient(recipe, "skinless, boneless chicken thighs", BigDecimal.valueOf(1.25), getUom("Pound")));
+        recipe.addIngredient(createIngredient(recipe, "ancho chili powder", BigDecimal.valueOf(2), getUom("Tablespoon")));
+        recipe.addIngredient(createIngredient(recipe, "dried oregano", BigDecimal.valueOf(1), getUom("Teaspoon")));
+        recipe.addIngredient(createIngredient(recipe, "dried cumin", BigDecimal.valueOf(1), getUom("Teaspoon")));
+        recipe.addIngredient(createIngredient(recipe, "sugar", BigDecimal.valueOf(1), getUom("Teaspoon")));
+        recipe.addIngredient(createIngredient(recipe, "kosher salt", BigDecimal.valueOf(.5), getUom("Teaspoon")));
+        recipe.addIngredient(createIngredient(recipe, "garlic, finely chopped", BigDecimal.ONE, getUom("Clove")));
+        recipe.addIngredient(createIngredient(recipe, "finely grated orange zest", BigDecimal.valueOf(1), getUom("Tablespoon")));
+        recipe.addIngredient(createIngredient(recipe, "fresh-squeezed orange juice", BigDecimal.valueOf(3), getUom("Tablespoon")));
+        recipe.addIngredient(createIngredient(recipe, "olive oil", BigDecimal.valueOf(2), getUom("Tablespoon")));
+        recipe.addIngredient(createIngredient(recipe, "skinless, boneless chicken thighs", BigDecimal.valueOf(1.25), getUom("Pound")));
 
         recipe.setServings(5);
         recipe.setSource("Simple Recipes");
@@ -147,14 +146,6 @@ public class BootstrapDataLoader implements ApplicationListener<ContextRefreshed
         Optional<UnitOfMeasure> uomOptional = uomRepository.findByDescription(description);
 
         return uomOptional.orElseThrow();
-
-//        if (uomOptional.isPresent()) {
-//            return uomOptional.get();
-//        }
-//
-//        UnitOfMeasure createUOM = new UnitOfMeasure();
-//        createUOM.setDescription(description);
-//        return uomRepository.save(createUOM);
     }
 
     private Ingredient createIngredient(Recipe recipe, String description, BigDecimal amount, UnitOfMeasure uom) {

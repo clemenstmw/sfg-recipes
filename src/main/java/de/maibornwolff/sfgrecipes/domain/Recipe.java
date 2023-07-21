@@ -15,6 +15,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -125,6 +126,7 @@ public class Recipe {
 
     public void setNotes(Notes notes) {
         this.notes = notes;
+        notes.setRecipe(this);
     }
 
     public Difficulty getDifficulty() {
@@ -137,6 +139,14 @@ public class Recipe {
 
     public Set<Ingredient> getIngredients() {
         return ingredients;
+    }
+
+    public boolean addIngredient(Ingredient ingredient) {
+        if (ingredients == null) {
+            ingredients = new HashSet<>();
+        }
+        ingredient.setRecipe(this);
+        return ingredients.add(ingredient);
     }
 
     public void setIngredients(Set<Ingredient> ingredients) {
