@@ -7,15 +7,16 @@ import de.maibornwolff.sfgrecipes.domain.UnitOfMeasure;
 import de.maibornwolff.sfgrecipes.repository.IngredientRepository;
 import de.maibornwolff.sfgrecipes.repository.RecipeRepository;
 import de.maibornwolff.sfgrecipes.repository.UnitOfMeasureRepository;
+import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
+@Slf4j
 @Component
 public class BootstrapDataLoader implements ApplicationListener<ContextRefreshedEvent> {
 
@@ -30,12 +31,15 @@ public class BootstrapDataLoader implements ApplicationListener<ContextRefreshed
     }
 
     @Override
+    @Transactional
     public void onApplicationEvent(ContextRefreshedEvent event) {
+        log.info("Creating recipes...");
         Recipe guacamoleRecipe = createGuacamoleRecipe();
         repository.save(guacamoleRecipe);
 
         Recipe chickenTacosRecipe = createChickenTacosRecipe();
         repository.save(chickenTacosRecipe);
+        log.info("Created {} recipes", repository.count());
     }
 
     private Recipe createGuacamoleRecipe() {
@@ -61,9 +65,9 @@ public class BootstrapDataLoader implements ApplicationListener<ContextRefreshed
                 Add the garlic paste, red onion, jalapeño pepper, and cilantro to a large bowl.<br>
                                 
                 Pour the lime juice into the bowl and fold the ingredients together, gently, until everything is mixed. Taste the guacamole and add more salt, to taste.<br>
-                
+                                
                 4. Cover and store:<br>
-                
+                                
                 If you don’t intend to eat the guacamole right away, press a piece of plastic wrap directly onto its surface, and cover the bowl with a lid. Keep the guacamole refrigerated for up to 3 days. The surface of the guacamole might still brown, but just scrape the top off to reveal the bright green guac below!<br>
                 """);
 
@@ -89,36 +93,36 @@ public class BootstrapDataLoader implements ApplicationListener<ContextRefreshed
         Recipe recipe = new Recipe();
         recipe.setDescription("""                
                 Spicy Grilled Chicken Tacos<br>
-                
+                                
                 Spicy grilled chicken tacos! Quick marinade, then grill. Ready in about 30 minutes. Great for a quick weeknight dinner, backyard cookouts, and tailgate parties.<br>
                 """);
         recipe.setDirections("""
                 1.  Prepare the grill:<br>
-                
+                                
                 Prepare either a gas or charcoal grill for medium-high, direct heat.<br>
-                
+                                
                 2. Make the marinade and coat the chicken:<br>
-                
+                                
                 In a large bowl, stir together the chili powder, oregano, cumin, sugar, salt, garlic and orange zest. Stir in the orange juice and olive oil to make a loose paste. Add the chicken to the bowl and toss to coat all over.<br>
-                
+                                
                 Set aside to marinate while the grill heats and you prepare the rest of the toppings.<br>
-                
+                                
                 3. Grill the chicken:<br>
-                
+                                
                 Grill the chicken for 3 to 4 minutes per side, or until a thermometer inserted into the thickest part of the meat registers 165°F. Transfer to a plate and rest for 5 minutes.<br>
-                
+                                
                 4. Thin the sour cream with milk:<br>
-                
+                                
                 Stir together the sour cream and milk to thin out the sour cream to make it easy to drizzle.<br>
-                
+                                
                 5. Assemble the tacos:<br>
-                
+                                
                 Slice the chicken into strips. On each tortilla, place a small handful of arugula. Top with chicken slices, sliced avocado, radishes, tomatoes, and onion slices. Drizzle with the thinned sour cream. Serve with lime wedges.<br>
-                
+                                
                 6. Warm the tortillas:<br>
-                
+                                
                 Place each tortilla on the grill or on a hot, dry skillet over medium-high heat. As soon as you see pockets of the air start to puff up in the tortilla, turn it with tongs and heat for a few seconds on the other side.<br>
-                
+                                
                 Wrap warmed tortillas in a tea towel to keep them warm until serving.<br>
                 """);
         recipe.setDifficulty(Difficulty.MODERATE);
