@@ -3,30 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <title>Recipe Overview</title>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm"
+            crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 </head>
 <body>
-    <h2>Listed Recipes</h2>
-    <p th:text="${recipes.size()} + ' recipes found'">999 Recipes found</p>
 
-<table>
-    <thead>
-    <tr>
-        <th>Description</th>
-        <th>Difficulty</th>
-        <th>Prep Time</th>
-        <th>Cook Time</th>
-        <th>Link</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="recipe : ${recipes}">
-        <td th:text="${recipe.description}">Tequilla Sunrise - all lights on!</td>
-        <td th:text="${recipe.difficulty}">You'll manage</td>
-        <td th:text="${recipe.prepTime} + ' minutes'">3-5 minutes</td>
-        <td th:text="${recipe.cookTime} + ' minutes'">3-4 minutes</td>
-        <td><a th:href="@{/recipes/{recipeId}(recipeId=${recipe.id})}">Link</a></td>
-    </tr>
-    </tbody>
-</table>
+<div class="container col-xxl-8 offset-xxl-2" style="margin-top: 20px">
+    <div class="card panel-primary">
+        <div class="card-body">
+
+            <div class="card-header">
+                <h1 class="card-title">Listed Recipes</h1>
+                <h5 class="card-subtitle" th:text="${recipes.size()} + ' recipes found'">999 Recipes found</h5>
+            </div>
+
+            <div class="table-responsive" th:if="${not #lists.isEmpty(recipes)}">
+
+                <table class="table table-hover">
+
+                    <thead class="thead-inverse">
+                    <tr>
+                        <th>Description</th>
+                        <th>Difficulty</th>
+                        <th>Prep Time</th>
+                        <th>Cook Time</th>
+                        <th>Link</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-group-divider" th:remove="all-but-first">
+                    <tr th:each="recipe : ${recipes}">
+                        <td th:text="${recipe.description}">Tequilla Sunrise - all lights on!</td>
+                        <td th:text="${recipe.difficulty}">You'll manage</td>
+                        <td th:text="${recipe.prepTime} + ' minutes'">3-5 minutes</td>
+                        <td th:text="${recipe.cookTime} + ' minutes'">3-4 minutes</td>
+                        <td><a th:href="@{/recipes/{recipeId}(recipeId=${recipe.id})}">Link</a></td>
+                    </tr>
+                    <tr>
+                        <td th:text="${recipe.description}">Tequilla Sunrise - all lights on!</td>
+                        <td th:text="${recipe.difficulty}">You'll manage</td>
+                        <td th:text="${recipe.prepTime} + ' minutes'">3-5 minutes</td>
+                        <td th:text="${recipe.cookTime} + ' minutes'">3-4 minutes</td>
+                        <td><a th:href="@{/recipes/{recipeId}(recipeId=${recipe.id})}">Link</a></td>
+                    </tr>
+                    <tr>
+                        <td th:text="${recipe.description}">Tequilla Sunrise - all lights on!</td>
+                        <td th:text="${recipe.difficulty}">You'll manage</td>
+                        <td th:text="${recipe.prepTime} + ' minutes'">3-5 minutes</td>
+                        <td th:text="${recipe.cookTime} + ' minutes'">3-4 minutes</td>
+                        <td><a th:href="@{/recipes/{recipeId}(recipeId=${recipe.id})}">Link</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
 </body>
 </html>
