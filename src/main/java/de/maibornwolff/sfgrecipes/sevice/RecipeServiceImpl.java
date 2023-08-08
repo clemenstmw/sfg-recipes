@@ -29,6 +29,6 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public Recipe getRecipe(Long id) {
         log.debug("Getting recipe {}", id);
-        return recipeRepository.findById(id).get();
+        return recipeRepository.findById(id).orElseThrow(() -> new RuntimeException("Recipe not found"));
     }
 }

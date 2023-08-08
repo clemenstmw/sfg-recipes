@@ -19,11 +19,8 @@
 <div class="container col-xxl-8 offset-xxl-2" style="margin-top: 20px">
     <div class="card panel-primary">
         <div class="card-body">
-
-            <div class="card-header">
-                <h1 class="card-title">Listed Recipes</h1>
-                <h5 class="card-subtitle" th:text="${recipes.size()} + ' recipes found'">999 Recipes found</h5>
-            </div>
+            <h1 class="card-title">Listed Recipes</h1>
+            <h5 class="card-subtitle" th:text="${recipes.size()} + ' recipes found'">999 Recipes found</h5>
 
             <div class="table-responsive" th:if="${not #lists.isEmpty(recipes)}">
 
@@ -44,21 +41,21 @@
                         <td th:text="${recipe.difficulty}">You'll manage</td>
                         <td th:text="${recipe.prepTime} + ' minutes'">3-5 minutes</td>
                         <td th:text="${recipe.cookTime} + ' minutes'">3-4 minutes</td>
-                        <td><a th:href="@{/recipes/{recipeId}(recipeId=${recipe.id})}">Link</a></td>
+                        <td><a href="." th:href="@{/recipes/{recipeId}(recipeId=${recipe.id})}">Link</a></td>
                     </tr>
                     <tr>
-                        <td th:text="${recipe.description}">Tequilla Sunrise - all lights on!</td>
-                        <td th:text="${recipe.difficulty}">You'll manage</td>
-                        <td th:text="${recipe.prepTime} + ' minutes'">3-5 minutes</td>
-                        <td th:text="${recipe.cookTime} + ' minutes'">3-4 minutes</td>
-                        <td><a th:href="@{/recipes/{recipeId}(recipeId=${recipe.id})}">Link</a></td>
+                        <td>Long Island Ice tea - all lights on!</td>
+                        <td>Medium</td>
+                        <td>3-5 minutes</td>
+                        <td>3-4 minutes</td>
+                        <td><a href=".">Link</a></td>
                     </tr>
                     <tr>
-                        <td th:text="${recipe.description}">Tequilla Sunrise - all lights on!</td>
-                        <td th:text="${recipe.difficulty}">You'll manage</td>
-                        <td th:text="${recipe.prepTime} + ' minutes'">3-5 minutes</td>
-                        <td th:text="${recipe.cookTime} + ' minutes'">3-4 minutes</td>
-                        <td><a th:href="@{/recipes/{recipeId}(recipeId=${recipe.id})}">Link</a></td>
+                        <td>Margarita - all lights on!</td>
+                        <td>Easy</td>
+                        <td>3-5 minutes</td>
+                        <td>3-4 minutes</td>
+                        <td><a href=".">Link</a></td>
                     </tr>
                     </tbody>
                 </table>

@@ -8,7 +8,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 
@@ -17,11 +16,10 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyNoInteractions;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.openMocks;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -32,8 +30,6 @@ class RecipeControllerTest {
 
     @Mock
     RecipeService recipeService;
-//    @Mock
-//    Model model;
 
     @BeforeEach
     void setUp() {
@@ -49,6 +45,21 @@ class RecipeControllerTest {
     }
 
     @Test
+    void testGetRecipe() throws Exception {
+        Recipe mockRecipe = new Recipe();
+        mockRecipe.setId(1L);
+        mockRecipe.setDescription("Mock Recipe");
+        when(recipeService.getRecipe(1L)).thenReturn(mockRecipe);
+
+        MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
+        mockMvc.perform(get("/recipes/1"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("recipes/from-id"))
+                .andExpect(model().attributeExists("recipe"))
+                .andExpect(model().attribute("recipe", mockRecipe));
+    }
+
+    @Test
     void getRecipes(@Mock Model model) {
         // GIVEN
 
@@ -61,6 +72,7 @@ class RecipeControllerTest {
         verify(model).addAttribute(eq("recipes"), any());
         verifyNoMoreInteractions(recipeService, model);
     }
+
     @Test
     void getRecipe(@Mock Model model) {
         // GIVEN
